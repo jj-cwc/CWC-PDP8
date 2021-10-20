@@ -25,12 +25,12 @@ module mojo_top (
     clock_generator clk_gen;
   }
   
-  .clk(clk_gen.clk_3) {
+  .clk(clk_gen.dbg_clk) {
     reset_conditioner reset_cond;
     
     .rst(rst){
       // the avr_interface module is used to talk to the AVR for access to the USB port and analog pins
-      avr_interface avr(#CLK_FREQ(33333000));
+      avr_interface avr(#CLK_FREQ(3125000));
       slow_clock slow_clk;
       tm1638_octal display(.dio(panel_dio), .bright(3h0));
     }

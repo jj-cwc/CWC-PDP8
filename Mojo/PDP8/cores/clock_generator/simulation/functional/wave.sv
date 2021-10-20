@@ -90,8 +90,7 @@ group clear 0 end
 
 group insert \
     {clock_generator_tb.dut.clk[1]} \
-    {clock_generator_tb.dut.clk[2]}  \     {clock_generator_tb.dut.clk[3]}  \     {clock_generator_tb.dut.clk[4]}  
-
+    {clock_generator_tb.dut.clk[2]}  \     {clock_generator_tb.dut.clk[3]} 
 group using {Counters}
 group set -overlay 0
 group set -comment {}
@@ -99,8 +98,7 @@ group clear 0 end
 
 group insert \
     {clock_generator_tb.dut.counter[1]} \
-    {clock_generator_tb.dut.counter[2]}  \     {clock_generator_tb.dut.counter[3]}  \     {clock_generator_tb.dut.counter[4]}  
-
+    {clock_generator_tb.dut.counter[2]}  \     {clock_generator_tb.dut.counter[3]} 
 
 set id [waveform add -signals [list {nc::clock_generator_tb.COUNT} ]]
 

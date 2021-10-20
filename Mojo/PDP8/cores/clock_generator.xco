@@ -1,7 +1,7 @@
 ##############################################################
 #
 # Xilinx Core Generator version 14.7
-# Date: Thu Sep 23 19:55:20 2021
+# Date: Wed Oct 20 15:04:57 2021
 #
 ##############################################################
 #
@@ -41,11 +41,11 @@ SELECT Clocking_Wizard xilinx.com:ip:clk_wiz:3.6
 # BEGIN Parameters
 CSET calc_done=DONE
 CSET clk_in_sel_port=CLK_IN_SEL
-CSET clk_out1_port=clk_3
+CSET clk_out1_port=dbg_clk
 CSET clk_out1_use_fine_ps_gui=false
-CSET clk_out2_port=clk_20
+CSET clk_out2_port=sys_clk
 CSET clk_out2_use_fine_ps_gui=false
-CSET clk_out3_port=clk_33
+CSET clk_out3_port=mem_clk
 CSET clk_out3_use_fine_ps_gui=false
 CSET clk_out4_port=clk_50
 CSET clk_out4_use_fine_ps_gui=false
@@ -79,14 +79,14 @@ CSET clkout2_requested_phase=0.000
 CSET clkout2_used=true
 CSET clkout3_drives=BUFG
 CSET clkout3_requested_duty_cycle=50.000
-CSET clkout3_requested_out_freq=33.000
+CSET clkout3_requested_out_freq=100.000
 CSET clkout3_requested_phase=0.000
 CSET clkout3_used=true
 CSET clkout4_drives=BUFG
 CSET clkout4_requested_duty_cycle=50.000
 CSET clkout4_requested_out_freq=50.000
 CSET clkout4_requested_phase=0.000
-CSET clkout4_used=true
+CSET clkout4_used=false
 CSET clkout5_drives=BUFG
 CSET clkout5_requested_duty_cycle=50.000
 CSET clkout5_requested_out_freq=100.000
@@ -189,7 +189,7 @@ CSET mmcm_notes=None
 CSET mmcm_ref_jitter1=0.010
 CSET mmcm_ref_jitter2=0.010
 CSET mmcm_startup_wait=false
-CSET num_out_clks=4
+CSET num_out_clks=3
 CSET override_dcm=false
 CSET override_dcm_clkgen=false
 CSET override_mmcm=false
@@ -206,7 +206,7 @@ CSET pll_clkout0_phase=0.000
 CSET pll_clkout1_divide=20
 CSET pll_clkout1_duty_cycle=0.500
 CSET pll_clkout1_phase=0.000
-CSET pll_clkout2_divide=12
+CSET pll_clkout2_divide=40
 CSET pll_clkout2_duty_cycle=0.500
 CSET pll_clkout2_phase=0.000
 CSET pll_clkout3_divide=8
@@ -266,4 +266,4 @@ CSET use_status=false
 MISC pkg_timestamp=2012-05-10T12:44:55Z
 # END Extra information
 GENERATE
-# CRC:  fca0033
+# CRC: 44f2a938

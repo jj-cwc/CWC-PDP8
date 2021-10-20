@@ -19,7 +19,10 @@
     <src>slow_clock.luc</src>
     <src>led_octal.luc</src>
     <constraint lib="true">mojo.ucf</constraint>
-    <constraint>minimilian4.ucf</constraint>
+    <constraint>pdp8_v01.ucf</constraint>
+    <core name="clock_generator">
+      <src>../clock_generator.v</src>
+    </core>
     <core name="clock_generator">
       <src>../clock_generator.v</src>
     </core>
