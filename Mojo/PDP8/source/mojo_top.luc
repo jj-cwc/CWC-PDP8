@@ -68,8 +68,8 @@ module mojo_top (
     panel_stb = display.ss;
     panel_clk = display.sck;
     display.display = {12h000, 12h000};
-    display.dp = 8h00;
-    display.led = 8h00;
+    display.dp = c{ slow_clk.out, 2b0, time_gen.return, time_gen.source, time_gen.strobe, time_gen.write, time_gen.inhibit };
+    display.led = c{ time_gen.tp1, time_gen.tp2, time_gen.tp3, time_gen.tp4, time_gen.ts1, time_gen.ts2, time_gen.ts3, time_gen.ts4 };
     
     ram_ce = ram.ram_ce;
     ram_clk = ram.ram_clk;

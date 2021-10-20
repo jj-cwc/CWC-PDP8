@@ -13,6 +13,16 @@ module ext_mem (
   }
 
   always {
-    case
+    ram_ce = 0;
+    ram_clk = 0;
+    ram_sio.enable = 0;
+    ram_sio.write = 4h0;
+    debug = 16h0000;
+    
+    
+    case(state.q) {
+      state.INIT:
+        state.d = state.INIT;
+    }
   }
 }

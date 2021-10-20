@@ -9,6 +9,6 @@ module slow_clock (
   }
   
   always {
-    out = delay.value[14];
+    out = delay.value[18];
   }
 }
