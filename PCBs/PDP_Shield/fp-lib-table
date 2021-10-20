@@ -1,0 +1,6 @@
+(fp_lib_table
+  (lib (name PDP_Shield)(type KiCad)(uri ${KIPRJMOD}/PDP_Shield.pretty)(options "")(descr ""))
+  (lib (name Espressif)(type KiCad)(uri /home/jeff/PCB/libraries/ESP32-kicad-libraries/footprints/Espressif.pretty)(options "")(descr ""))
+  (lib (name IPS6404L-SQ-SPN)(type Legacy)(uri /home/jeff/PCB/libraries/IPS6404L-SQ-SPN/KiCad/IPS6404L-SQ-SPN.mod)(options "")(descr ""))
+  (lib (name Boards)(type KiCad)(uri /home/jeff/PCB/libraries/SparkFun-KiCad-Libraries-master/Footprints/Boards.pretty)(options "")(descr ""))
+)

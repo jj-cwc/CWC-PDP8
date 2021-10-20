@@ -1,0 +1,18 @@
+module ext_mem (
+    input  clk,  // clock
+    input  rst,  // reset
+    output ram_ce,
+    output ram_clk,
+    inout  ram_sio[4],
+    
+    output debug[16]
+  ) {
+  
+  .clk(clk), .rst(rst) {
+    fsm state = { INIT };
+  }
+
+  always {
+    case
+  }
+}

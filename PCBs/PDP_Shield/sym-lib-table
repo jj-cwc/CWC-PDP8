@@ -1,0 +1,6 @@
+(sym_lib_table
+  (lib (name PDP_Shield)(type Legacy)(uri ${KIPRJMOD}/PDP_Shield.lib)(options "")(descr ""))
+  (lib (name Espressif)(type Legacy)(uri /home/jeff/PCB/libraries/ESP32-kicad-libraries/libraries/Espressif.lib)(options "")(descr ""))
+  (lib (name IPS6404L-SQ-SPN)(type Legacy)(uri /home/jeff/PCB/libraries/IPS6404L-SQ-SPN/KiCad/IPS6404L-SQ-SPN.lib)(options "")(descr ""))
+  (lib (name SparkFun-Boards)(type Legacy)(uri /home/jeff/PCB/libraries/SparkFun-KiCad-Libraries-master/Libraries/SparkFun-Boards.lib)(options "")(descr ""))
+)

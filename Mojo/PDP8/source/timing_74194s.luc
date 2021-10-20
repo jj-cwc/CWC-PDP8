@@ -1,0 +1,18 @@
+// A basic 4-bit shift register, used in cases where the 74194's parallel
+// input and mode pin are not needed.
+module timing_74194s (
+    input  clk,  // clock
+    input  serial,
+    output out[4]
+  ) {
+
+  .clk(clk) {
+    dff reg[4];
+  }
+  
+  always {
+    out = reg.q;
+    reg.d = reg.q << 1;
+    reg.d[0] = serial;
+  }
+}

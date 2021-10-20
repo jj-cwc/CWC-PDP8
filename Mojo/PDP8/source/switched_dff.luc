@@ -1,0 +1,22 @@
+module switched_dff (
+    input  clk, 
+    input  rst,
+    input  on,
+    input  off,
+    output q
+  ) {
+
+  .clk(clk), .rst(rst) {
+    dff value;
+  }
+  
+  always {
+    q = value.q;
+    if(on) {
+      value.d = 1;
+    }
+    if(off) {
+      value.d = 0;
+    }
+  }
+}

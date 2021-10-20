@@ -1,0 +1,14 @@
+module slow_clock (
+    input clk,  // clock
+    input rst,  // reset
+    output out
+  ) {
+
+  .clk(clk), .rst(rst) {
+    counter delay(#SIZE(32));
+  }
+  
+  always {
+    out = delay.value[14];
+  }
+}

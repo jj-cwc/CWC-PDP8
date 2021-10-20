@@ -1,0 +1,27 @@
+// A limited-function DEC 74194 4-bit bidirectional shift register.
+// clear, s1, left-shift serial input not needed/implemented for timing generator
+// data inputs and outputs (as opposed to control inputs) are reverse logic
+
+module timing_74194 (
+    input  clk,
+    input  mode,
+    input  serial,
+    input  parallel[4],
+    output out[4]
+  ) {
+
+  .clk(clk) {
+    dff reg[4];
+  }
+  
+  always {
+    out = reg.q;
+    
+    if(mode) {            // if mode is high,
+      reg.d = parallel;   // parallel programming is enabled
+    } else {              // otherwise,
+      reg.d = reg.q << 1; // it's a shift register
+      reg.d[0] = serial;
+    }
+  }
+}

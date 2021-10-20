@@ -1,0 +1,125 @@
+module timing_generator (
+    input  clk,
+    input  rst,
+    
+    input  fast,
+    input  bus_strobe,
+    input  not_last_xfer,
+    output return,
+    output source,
+    output strobe,
+    output write,
+    output inhibit,
+    output tp1,
+    output tp2,
+    output tp3,
+    output tp4,
+    output ts1,
+    output ts2,
+    output ts3,
+    output ts4,
+    
+    output debug[8]
+  ) {
+
+  sig overflow;
+  sig load;
+  sig fast_cycle;
+  sig e24p[4];
+  sig e6m;
+  sig e26;
+  sig e22;
+  
+  .clk(clk) {
+    // see figure 3-22, 3-25 in PDP-8 Processor Maintenance Manual, Vol 1
+    timing_74194  e43( .serial(overflow), .parallel(4b0011), .mode(load) );
+    timing_74194s e38( .serial(e43.out[3]) );
+    timing_74194s e34( .serial(e38.out[3]) );
+    timing_74194s e29( .serial(e34.out[1]) );
+    timing_74194  e24( .serial(e29.out[3]), .parallel(e24p), .mode(fast_cycle) );
+    timing_74194s e19( .serial(e24.out[3]) );
+    timing_74194s e14( .serial(e19.out[3]) );
+    timing_74194s e10( .serial(e14.out[3]) );
+    timing_74194  e6 ( .serial(e19.out[3]), .parallel(4b0011), .mode(e6m) );
+    timing_74194s e2 ( .serial(e6.out[3]) );
+    
+    .rst(rst) {
+      fsm state = {INIT_1, INIT_2, RUN};
+      dff e30;
+      dff init;
+      dff e20b;
+      switched_dff m_return ( .on (e43.out[3] | e19.out[2]),
+                              .off(e34.out[3] | e10.out[2]) );
+      switched_dff m_source ( .on (e43.out[3] | e19.out[2]), 
+                              .off(e34.out[2] | e10.out[1]) );
+      switched_dff m_strobe ( .on (e38.out[2]), .off(e34.out[1]) );
+      switched_dff m_write  ( .on (e19.out[0]), .off(e10.out[2]) );
+      switched_dff m_inhibit( .on (e19.out[2]), .off(e10.out[1]) );
+      switched_dff p_ts1    ( .on ( e2.out[3]), .off(e38.out[3]) );
+      switched_dff p_ts2    ( .on (e38.out[3]), .off(e24.out[2]) );
+      switched_dff p_ts3    ( .on (e24.out[2]), .off(~e26) );
+      switched_dff p_ts4    ( .on (~e26), .off(e2.out[3]) );
+      dff tp[4];
+    }
+    
+    .clk(tp.q[0]), .rst(rst) {
+      dff e31( .d(fast) );
+    }
+    
+    .clk(e22), .rst(rst) {
+      dff e20a;
+    }
+  }
+  
+  always {
+    tp.d    = c{ e2.out[2], e14.out[0], e24.out[1], e38.out[2] }; 
+    return  = m_return.q;
+    source  = m_source.q;
+    strobe  = m_strobe.q;
+    write   = m_write.q;
+    inhibit = m_inhibit.q;
+    ts1     = ~p_ts1.q;
+    ts2     = ~p_ts2.q;
+    ts3     = ~p_ts3.q;
+    ts4     = ~p_ts4.q;
+    tp1     = tp.q[0];
+    tp2     = tp.q[1];
+    tp3     = tp.q[2];
+    tp4     = tp.q[3];
+    e24p[0] = e34.out[1];
+    e24p[1] = e24.out[0];
+    e24p[2] = e24.out[1];
+    e24p[3] = e24.out[2];
+    overflow = e2.out[1];
+    e30.d = e31.q;
+    fast_cycle = e30.q;
+    load = init.q;
+    e6m = e20b.q;
+    e20a.d = not_last_xfer;
+    e20b.d = ~e20a.q;
+    e22 = ~bus_strobe | e14.out[0];
+    e26 = ~(e6.out[1] & e20a.q);
+    
+    debug[0] = not_last_xfer;
+    debug[1] = bus_strobe;
+    debug[2] = e22;
+    debug[3] = e20a.q;
+    debug[4] = e20b.q;
+    debug[5] = 0;
+    debug[6] = 0;
+    debug[7] = 0;
+    
+    case(state.q) {
+      state.INIT_1:
+        init.d = 1;
+        state.d = state.INIT_2;
+        
+      state.INIT_2:
+        init.d = 0;
+        state.d = state.RUN;
+        
+      state.RUN:
+        state.d = state.RUN;
+    }
+  }
+}
