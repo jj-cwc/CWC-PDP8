@@ -1,0 +1,79 @@
+module tm1638_octal (
+    input  clk,  // clock
+    input  rst,  // reset
+    
+    output ss,
+    output sck,
+    inout  dio,
+    
+    input  display[2][12],
+    input  bright[3],
+    input  dp[8],
+    input  led[8],
+    output button[8]
+  ) {
+  
+  led_octal digit[8];
+  
+  .clk(clk), .rst(rst) {
+    counter sync( #SIZE(12), #TOP(12b111001111111) );
+    // 2:0 delay; 3 clock; 6:4 bit; 12:7 byte
+    dff select;
+    dff data[8];
+    dff enable;
+    dff btn[8];
+    dff buffer[8];
+  }
+  
+  always {
+    sck = sync.value[3];
+    ss = ~select.q;
+    dio.write = data.q[sync.value[6:4]];
+    buffer.d[sync.value[6:4]] = dio.read;
+    dio.enable = enable.q;
+    button = btn.q;
+    
+    digit.in[0] = display[0][11:9];  digit.dp[0] = dp[0];
+    digit.in[1] = display[0][8:6];   digit.dp[1] = dp[1];
+    digit.in[2] = display[0][5:3];   digit.dp[2] = dp[2];
+    digit.in[3] = display[0][2:0];   digit.dp[3] = dp[3];
+    digit.in[4] = display[1][11:9];  digit.dp[4] = dp[4];
+    digit.in[5] = display[1][8:6];   digit.dp[5] = dp[5];
+    digit.in[6] = display[1][5:3];   digit.dp[6] = dp[6];
+    digit.in[7] = display[1][2:0];   digit.dp[7] = dp[7];
+    
+    if (&sync.value[6:0]) { // just before the clock goes low for a new byte
+      case (sync.value[11:7]) {
+        5b00000: select.d = 0; enable.d = 1;
+        5b00001: data.d = c{ 5b10001, bright }; select.d = 1;
+        5b00010: select.d = 0;
+        5b00011: data.d = 8h40; select.d = 1;
+        5b00100: select.d = 0;
+        5b00101: data.d = 8hC0; select.d = 1;
+        5b00110: data.d = digit.out[0];
+        5b00111: data.d = c{ 7b0000000, led[7] };
+        5b01000: data.d = digit.out[1];
+        5b01001: data.d = c{ 7b0000000, led[6] };
+        5b01010: data.d = digit.out[2];
+        5b01011: data.d = c{ 7b0000000, led[5] };
+        5b01100: data.d = digit.out[3];
+        5b01101: data.d = c{ 7b0000000, led[4] };
+        5b01110: data.d = digit.out[4];
+        5b01111: data.d = c{ 7b0000000, led[3] };
+        5b10000: data.d = digit.out[5];
+        5b10001: data.d = c{ 7b0000000, led[2] };
+        5b10010: data.d = digit.out[6];
+        5b10011: data.d = c{ 7b0000000, led[1] };
+        5b10100: data.d = digit.out[7];
+        5b10101: data.d = c{ 7b0000000, led[0] };
+        5b10110: select.d = 0;
+        5b10111: data.d = 8h42; select.d = 1;
+        5b11000: data.d = 8h00; enable.d = 0;
+        5b11001: btn.d[0] = buffer.q[0]; btn.d[4] = buffer.q[4];
+        5b11010: btn.d[1] = buffer.q[0]; btn.d[5] = buffer.q[4];
+        5b11011: btn.d[2] = buffer.q[0]; btn.d[6] = buffer.q[4];
+        5b11100: btn.d[3] = buffer.q[0]; btn.d[7] = buffer.q[4];
+      }
+    }
+  }
+}

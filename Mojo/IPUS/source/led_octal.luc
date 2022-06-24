@@ -1,0 +1,22 @@
+module led_octal (
+    input  in[3],
+    input  dp,
+    output out[8]
+  ) {
+
+  
+  always {
+    out[7] = dp;
+    case (in) {
+      3h0: out[6:0] = 7b0111111;
+      3h1: out[6:0] = 7b0000110;
+      3h2: out[6:0] = 7b1011011;
+      3h3: out[6:0] = 7b1001111;
+      3h4: out[6:0] = 7b1100110;
+      3h5: out[6:0] = 7b1101101;
+      3h6: out[6:0] = 7b1111101;
+      3h7: out[6:0] = 7b0000111;
+      default: out = 7b0000000;
+    }
+  }
+}

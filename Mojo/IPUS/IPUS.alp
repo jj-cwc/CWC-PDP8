@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="IPUS" board="Mojo" language="Lucid" version="3">
   <files>
+    <src>multi_shifter.luc</src>
     <src top="true">mojo_top.luc</src>
     <component>reset_conditioner.luc</component>
+    <src>led_octal.luc</src>
+    <src>tm1638_octal.luc</src>
+    <constraint>pdp8_v01.ucf</constraint>
     <constraint lib="true">mojo.ucf</constraint>
   </files>
 </project>
