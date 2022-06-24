@@ -1,0 +1,38 @@
+module multi_shifter #(
+    WIDTH = 4 : WIDTH > 0,
+    CAPACITY = 4 : CAPACITY > 0
+  )
+  (  
+    input  clk,  // clock
+    input  rst,  // reset
+    input  d[WIDTH*CAPACITY],
+    output q[WIDTH],
+    input  push,
+    input  pop,
+    output empty
+  ) {
+
+  const TOP = (WIDTH*CAPACITY)-1;
+    
+  .clk(clk) {
+    dff value[WIDTH*CAPACITY];
+    dff count[$clog2(CAPACITY+1)];
+    .rst(rst) {
+    }
+  }
+
+  always {
+    q = value.q[TOP-:WIDTH];
+    empty = ~|count.q;
+    
+    if(push) {
+      count.d = CAPACITY-1;
+      value.d = d;
+    }
+    
+    if(pop) {
+      value.d = value.q << 4;
+      count.d = count.q - 1;
+    }
+  }
+}
