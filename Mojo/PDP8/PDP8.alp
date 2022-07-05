@@ -2,27 +2,24 @@
 <project name="PDP8" board="Mojo" language="Lucid" version="3">
   <files>
     <component>spi_peripheral.luc</component>
-    <src>timing_74194s.luc</src>
     <component>cclk_detector.luc</component>
-    <component>reset_conditioner.luc</component>
-    <src>timing_generator.luc</src>
-    <component>uart_rx.luc</component>
     <src>timing_74194.luc</src>
-    <src>ext_mem.luc</src>
-    <component>counter.luc</component>
-    <component>avr_interface.luc</component>
-    <src>switched_dff.luc</src>
-    <src top="true">mojo_top.luc</src>
-    <src>tm1638_octal.luc</src>
+    <component>reset_conditioner.luc</component>
+    <component>uart_rx.luc</component>
+    <src>timing_generator.luc</src>
     <src>led_hex.luc</src>
-    <component>uart_tx.luc</component>
-    <src>slow_clock.luc</src>
+    <src>switched_dff.luc</src>
     <src>led_octal.luc</src>
+    <src>timing_74194s.luc</src>
+    <component>counter.luc</component>
+    <src>slow_clock.luc</src>
+    <component>avr_interface.luc</component>
+    <src top="true">mojo_top.luc</src>
+    <component>uart_tx.luc</component>
+    <src>ext_mem.luc</src>
+    <src>tm1638_octal.luc</src>
     <constraint lib="true">mojo.ucf</constraint>
     <constraint>pdp8_v01.ucf</constraint>
-    <core name="clock_generator">
-      <src>../clock_generator.v</src>
-    </core>
     <core name="clock_generator">
       <src>../clock_generator.v</src>
     </core>
